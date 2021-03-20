@@ -45,6 +45,7 @@ Q_OBJECT
 public:
 	Aliza(QObject(*)=NULL);
 	~Aliza();
+	bool open_all_series;
 	void close_();
 	ImageVariant * get_image(int);
 	const ImageVariant * get_image(int) const;

@@ -481,6 +481,7 @@ Aliza::Aliza(QObject * parent) : QObject(parent)
 	notrans_icon = QIcon(":/bitmaps/notrans1.svg");
 	anim3D_timer = new QTimer(this);
 	g_init_physics();
+	open_all_series = false;
 }
 
 Aliza::~Aliza()
@@ -588,12 +589,19 @@ void Aliza::load_dicom_series(QProgressDialog * pb)
 	}
 	const bool lock = mutex0.tryLock();
 	if (!lock) goto quit__;
-	selection =
-		browser2->tableWidget->selectionModel()->selectedRows();
-	for(int x = 0; x < selection.count(); x++)
-	{
-		const QModelIndex index = selection.at(x);
-		rows.push_back(index.row());
+	if (open_all_series) {
+		// Open all the series
+		for (int r = 0; r < browser2->tableWidget->rowCount(); r++) {
+			rows.push_back(r);
+		}
+	} else {
+		selection =
+			browser2->tableWidget->selectionModel()->selectedRows();
+		for (int x = 0; x < selection.count(); x++)
+		{
+			const QModelIndex index = selection.at(x);
+			rows.push_back(index.row());
+		}
 	}
 	if (rows.empty()) goto quit__;
 	for (unsigned int x = 0; x < rows.size(); x++)

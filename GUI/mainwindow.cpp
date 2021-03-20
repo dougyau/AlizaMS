@@ -530,6 +530,10 @@ void MainWindow::open_args(const QStringList & l)
 		else if (fi.isDir())
 		{
 			browser2->open_dicom_dir2(fi.absoluteFilePath());
+			set_ui();
+			aliza->open_all_series = true;
+			aliza->load_dicom_series(pb);
+			aliza->open_all_series = false;
 		}
 		else if (fi.isFile())
 		{
